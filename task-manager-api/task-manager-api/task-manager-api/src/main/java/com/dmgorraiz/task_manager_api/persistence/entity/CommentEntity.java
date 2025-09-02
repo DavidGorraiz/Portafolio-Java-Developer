@@ -1,0 +1,73 @@
+package com.dmgorraiz.task_manager_api.persistence.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "comments")
+public class CommentEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String content;
+    @Column(nullable = false)
+    private String username;
+    @Column(name = "task_id",nullable = false)
+    private Long taskId;
+
+    @ManyToOne
+    @JoinColumn(name = "username", insertable = false, updatable = false)
+    private UserEntity author;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id", insertable = false, updatable = false)
+    private TaskEntity task;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public UserEntity getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserEntity author) {
+        this.author = author;
+    }
+
+    public TaskEntity getTask() {
+        return task;
+    }
+
+    public void setTask(TaskEntity task) {
+        this.task = task;
+    }
+}
