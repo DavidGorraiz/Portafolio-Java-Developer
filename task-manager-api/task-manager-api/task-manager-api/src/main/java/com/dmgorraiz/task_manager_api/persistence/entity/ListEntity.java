@@ -24,7 +24,6 @@ public class ListEntity {
     private BoardEntity board;
 
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<TaskEntity> tasks;
 
     public Long getId() {

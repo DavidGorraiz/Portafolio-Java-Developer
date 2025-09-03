@@ -38,11 +38,9 @@ public class TaskEntity {
     private BoardEntity board;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<AttachmentEntity> attachments;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<CommentEntity> comments;
 
     public Long getId() {

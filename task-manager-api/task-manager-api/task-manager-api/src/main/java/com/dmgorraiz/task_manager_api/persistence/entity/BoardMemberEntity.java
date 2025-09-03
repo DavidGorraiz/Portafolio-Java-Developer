@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,12 +16,14 @@ public class BoardMemberEntity {
     @Column(name = "role_in_board",nullable = false)
     private String roleInBoard;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", insertable = false, updatable = false)
+    @JsonIgnore
     private BoardEntity board;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", insertable = false, updatable = false)
+    @JsonIgnore
     private UserEntity user;
 
     public Long getId() {

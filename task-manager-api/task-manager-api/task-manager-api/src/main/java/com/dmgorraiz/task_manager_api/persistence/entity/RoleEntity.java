@@ -10,7 +10,7 @@ public class RoleEntity {
     @Id
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private List<UserEntity> users;
 
     public String getRole() {
