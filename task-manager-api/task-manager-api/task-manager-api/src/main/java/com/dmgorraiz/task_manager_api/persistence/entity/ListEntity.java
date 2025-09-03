@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -17,11 +18,13 @@ public class ListEntity {
     @Column(name = "board_id",nullable = false)
     private Long boardId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", insertable = false, updatable = false)
+    @JsonIgnore
     private BoardEntity board;
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<TaskEntity> tasks;
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,12 +16,14 @@ public class AttachmentEntity {
     @Column(name = "task_id",nullable = false)
     private Long taskId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", insertable = false, updatable = false)
+    @JsonIgnore
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", insertable = false, updatable = false)
+    @JsonIgnore
     private TaskEntity task;
 
     public Long getId() {

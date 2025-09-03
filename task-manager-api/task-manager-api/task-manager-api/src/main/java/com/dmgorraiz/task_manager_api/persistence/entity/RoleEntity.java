@@ -10,8 +10,8 @@ public class RoleEntity {
     @Id
     private String role;
 
-    @OneToMany(mappedBy = "roleEntity")
-    private List<UserRoleEntity> userRoles;
+    @ManyToMany(mappedBy = "roles")
+    private List<UserEntity> users;
 
     public String getRole() {
         return role;
@@ -21,11 +21,11 @@ public class RoleEntity {
         this.role = role;
     }
 
-    public List<UserRoleEntity> getUserRoles() {
-        return userRoles;
+    public List<UserEntity> getUsers() {
+        return users;
     }
 
-    public void setUserRoles(List<UserRoleEntity> userRoles) {
-        this.userRoles = userRoles;
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }
