@@ -22,4 +22,9 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     public List<AttachmentDto> getAll() {
         return this.attachmentMapper.toDtos(this.crudAttachmentEntity.findAll());
     }
+
+    @Override
+    public AttachmentDto getById(long id) {
+        return this.attachmentMapper.toDto(this.crudAttachmentEntity.findById(id).orElse(null));
+    }
 }

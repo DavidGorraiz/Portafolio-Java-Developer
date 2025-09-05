@@ -17,4 +17,8 @@ public class TaskService {
     public List<TaskDto> getAll(){
         return taskRepository.getAll();
     }
+
+    public TaskDto getById(long id){
+        return taskRepository.getById(id);
+    }
 }

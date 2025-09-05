@@ -23,4 +23,9 @@ public class RoleEntityRepository implements RoleRepository {
     public List<RoleDto> getAll() {
         return this.roleMapper.toDtos(this.crudRoleEntity.findAll());
     }
+
+    @Override
+    public RoleDto getById(String role) {
+        return this.roleMapper.toDto(this.crudRoleEntity.findById(role).orElse(null));
+    }
 }

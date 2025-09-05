@@ -16,4 +16,8 @@ public class BoardService {
     public List<BoardDto> getAll(){
         return boardRepository.getAll();
     }
+
+    public BoardDto getById(long id){
+        return boardRepository.getById(id);
+    }
 }

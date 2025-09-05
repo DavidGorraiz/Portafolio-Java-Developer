@@ -17,4 +17,8 @@ public class AttachmentService {
     public List<AttachmentDto> getAll() {
         return attachmentRepository.getAll();
     }
+
+    public AttachmentDto getById(long id) {
+        return attachmentRepository.getById(id);
+    }
 }

@@ -24,4 +24,9 @@ public class CommentEntityRepository implements CommentRepository {
         return this.commentMapper.toDtos(this.crudCommentEntity.findAll());
 
     }
+
+    @Override
+    public CommentDto getById(long id) {
+        return this.commentMapper.toDto(this.crudCommentEntity.findById(id).orElse(null));
+    }
 }

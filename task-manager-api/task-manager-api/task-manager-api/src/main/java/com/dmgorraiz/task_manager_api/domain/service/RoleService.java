@@ -17,4 +17,8 @@ public class RoleService {
     public List<RoleDto> getAll(){
         return roleRepository.getAll();
     }
+
+    public RoleDto getById(String role){
+        return roleRepository.getById(role);
+    }
 }

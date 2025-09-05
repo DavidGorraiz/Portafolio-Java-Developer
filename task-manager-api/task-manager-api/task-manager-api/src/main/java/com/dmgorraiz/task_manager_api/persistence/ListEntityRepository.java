@@ -22,4 +22,9 @@ public class ListEntityRepository implements ListRepository {
     public List<ListDto> getAll() {
         return this.listMapper.toDtos(this.crudListEntity.findAll());
     }
+
+    @Override
+    public ListDto getById(long id) {
+        return this.listMapper.toDto(this.crudListEntity.findById(id).orElse(null));
+    }
 }

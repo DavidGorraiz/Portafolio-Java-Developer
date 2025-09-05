@@ -2,12 +2,16 @@ package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -15,8 +19,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    public List<UserDto> getAll() {
-        return this.userService.getAll();
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAll() {
+        return ResponseEntity.ok(this.userService.getAll());
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getById(@PathVariable String username) {
+        UserDto userDto = this.userService.getById(username);
+
+        if (userDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(userDto);
     }
 }

@@ -17,4 +17,8 @@ public class CommentService {
     public List<CommentDto> getAll(){
         return commentRepository.getAll();
     }
+
+    public CommentDto getById(long id){
+        return commentRepository.getById(id);
+    }
 }

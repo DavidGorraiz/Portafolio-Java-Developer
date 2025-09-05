@@ -17,4 +17,8 @@ public class ListService {
     public List<ListDto> getAll(){
         return listRepository.getAll();
     }
+
+    public ListDto getById(long id){
+        return listRepository.getById(id);
+    }
 }

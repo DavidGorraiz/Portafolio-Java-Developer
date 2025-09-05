@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AttachmentRepository {
     List<AttachmentDto> getAll();
+    AttachmentDto getById(long id);
 }

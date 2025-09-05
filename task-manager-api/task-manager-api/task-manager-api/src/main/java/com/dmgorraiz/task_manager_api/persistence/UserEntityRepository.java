@@ -22,4 +22,9 @@ public class UserEntityRepository implements UserRepository {
     public List<UserDto> getAll() {
         return this.userMapper.toDtos(this.crudUserEntity.findAll());
     }
+
+    @Override
+    public UserDto getById(String username) {
+        return this.userMapper.toUserDto(this.crudUserEntity.findById(username).orElse(null));
+    }
 }

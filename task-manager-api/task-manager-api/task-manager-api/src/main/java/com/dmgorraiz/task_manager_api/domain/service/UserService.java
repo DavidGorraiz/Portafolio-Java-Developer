@@ -17,4 +17,8 @@ public class UserService {
     public List<UserDto> getAll(){
         return this.userRepository.getAll();
     }
+
+    public UserDto getById(String username){
+        return this.userRepository.getById(username);
+    }
 }

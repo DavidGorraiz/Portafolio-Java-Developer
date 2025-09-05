@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TaskRepository {
     List<TaskDto> getAll();
+    TaskDto getById(long id);
 }

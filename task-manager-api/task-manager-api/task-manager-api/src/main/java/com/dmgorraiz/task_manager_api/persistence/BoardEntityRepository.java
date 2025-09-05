@@ -22,4 +22,9 @@ public class BoardEntityRepository implements BoardRepository {
     public List<BoardDto> getAll() {
         return this.boardMapper.toBoadrDtoList(this.crudBoardEntity.findAll());
     }
+
+    @Override
+    public BoardDto getById(long id) {
+        return this.boardMapper.toBoadrDto(this.crudBoardEntity.findById(id).orElse(null));
+    }
 }

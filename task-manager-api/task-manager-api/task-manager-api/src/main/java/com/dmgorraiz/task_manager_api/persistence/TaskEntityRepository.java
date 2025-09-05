@@ -22,4 +22,9 @@ public class TaskEntityRepository implements TaskRepository {
     public List<TaskDto> getAll() {
         return this.taskMapper.toDtos(this.crudTaskEntity.findAll());
     }
+
+    @Override
+    public TaskDto getById(long id) {
+        return this.taskMapper.toDto(this.crudTaskEntity.findById(id).orElse(null));
+    }
 }
