@@ -1,0 +1,25 @@
+package com.dmgorraiz.task_manager_api.persistence;
+
+import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
+import com.dmgorraiz.task_manager_api.domain.repository.AttachmentRepository;
+import com.dmgorraiz.task_manager_api.persistence.crud.CrudAttachmentEntity;
+import com.dmgorraiz.task_manager_api.persistence.mapper.AttachmentMapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class AttachmentEntityRepository implements AttachmentRepository {
+    private final CrudAttachmentEntity crudAttachmentEntity;
+    private final AttachmentMapper attachmentMapper;
+
+    public AttachmentEntityRepository(CrudAttachmentEntity crudAttachmentEntity, AttachmentMapper attachmentMapper) {
+        this.crudAttachmentEntity = crudAttachmentEntity;
+        this.attachmentMapper = attachmentMapper;
+    }
+
+    @Override
+    public List<AttachmentDto> getAll() {
+        return this.attachmentMapper.toDtos(this.crudAttachmentEntity.findAll());
+    }
+}

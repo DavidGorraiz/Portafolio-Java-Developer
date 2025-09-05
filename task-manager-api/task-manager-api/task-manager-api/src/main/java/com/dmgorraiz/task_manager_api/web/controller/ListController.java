@@ -1,7 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
-import com.dmgorraiz.task_manager_api.persistence.crud.CrudListEntity;
-import com.dmgorraiz.task_manager_api.persistence.entity.ListEntity;
+import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
+import com.dmgorraiz.task_manager_api.domain.service.ListService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,14 +9,14 @@ import java.util.List;
 
 @RestController
 public class ListController {
-    private final CrudListEntity crudListEntity;
+    private final ListService listService;
 
-    public ListController(CrudListEntity crudListEntity) {
-        this.crudListEntity = crudListEntity;
+    public ListController(ListService listService) {
+        this.listService = listService;
     }
 
     @GetMapping("/lists")
-    public List<ListEntity> getAll() {
-        return (List<ListEntity>) this.crudListEntity.findAll();
+    public List<ListDto> getAll() {
+        return this.listService.getAll();
     }
 }

@@ -1,7 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
-import com.dmgorraiz.task_manager_api.persistence.crud.CrudRoleEntity;
-import com.dmgorraiz.task_manager_api.persistence.entity.RoleEntity;
+import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
+import com.dmgorraiz.task_manager_api.domain.service.RoleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,14 +9,14 @@ import java.util.List;
 
 @RestController
 public class RoleController {
-    private final CrudRoleEntity crudRoleEntity;
+    private final RoleService roleService;
 
-    public RoleController(CrudRoleEntity crudRoleEntity) {
-        this.crudRoleEntity = crudRoleEntity;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping("/roles")
-    public List<RoleEntity> getAll() {
-        return (List<RoleEntity>) this.crudRoleEntity.findAll();
+    public List<RoleDto> getAll() {
+        return this.roleService.getAll();
     }
 }

@@ -1,0 +1,9 @@
+package com.dmgorraiz.task_manager_api.domain.repository;
+
+import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
+
+import java.util.List;
+
+public interface AttachmentRepository {
+    List<AttachmentDto> getAll();
+}

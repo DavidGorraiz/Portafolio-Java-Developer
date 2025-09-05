@@ -1,7 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
-import com.dmgorraiz.task_manager_api.persistence.crud.CrudTaskEntity;
-import com.dmgorraiz.task_manager_api.persistence.entity.TaskEntity;
+import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
+import com.dmgorraiz.task_manager_api.domain.service.TaskService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,14 +9,14 @@ import java.util.List;
 
 @RestController
 public class TaskController {
-    private final CrudTaskEntity crudTaskEntity;
+    private final TaskService taskService;
 
-    public TaskController(CrudTaskEntity crudTaskEntity) {
-        this.crudTaskEntity = crudTaskEntity;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping("/tasks")
-    public List<TaskEntity> getAll() {
-        return (List<TaskEntity>) this.crudTaskEntity.findAll();
+    public List<TaskDto> getAll() {
+        return this.taskService.getAll();
     }
 }
