@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.BoardDto;
 import com.dmgorraiz.task_manager_api.domain.repository.BoardRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudBoardEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.BoardEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.BoardMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,12 @@ public class BoardEntityRepository implements BoardRepository {
     @Override
     public BoardDto getById(long id) {
         return this.boardMapper.toBoadrDto(this.crudBoardEntity.findById(id).orElse(null));
+    }
+
+    @Override
+    public BoardDto save(BoardDto boardDto) {
+        BoardEntity boardEntity = this.boardMapper.toBoardEntity(boardDto);
+
+        return this.boardMapper.toBoadrDto(this.crudBoardEntity.save(boardEntity));
     }
 }

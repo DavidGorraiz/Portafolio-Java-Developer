@@ -20,4 +20,8 @@ public class BoardService {
     public BoardDto getById(long id){
         return boardRepository.getById(id);
     }
+
+    public BoardDto save(BoardDto boardDto){
+        return boardRepository.save(boardDto);
+    }
 }

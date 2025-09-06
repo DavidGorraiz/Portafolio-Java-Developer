@@ -21,4 +21,8 @@ public class CommentService {
     public CommentDto getById(long id){
         return commentRepository.getById(id);
     }
+
+    public CommentDto save(CommentDto commentDto){
+        return commentRepository.save(commentDto);
+    }
 }

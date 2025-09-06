@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
 import com.dmgorraiz.task_manager_api.domain.repository.RoleRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudRoleEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.RoleEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.RoleMapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +28,11 @@ public class RoleEntityRepository implements RoleRepository {
     @Override
     public RoleDto getById(String role) {
         return this.roleMapper.toDto(this.crudRoleEntity.findById(role).orElse(null));
+    }
+
+    @Override
+    public RoleDto save(RoleDto role) {
+        RoleEntity roleEntity = this.roleMapper.toEntity(role);
+        return this.roleMapper.toDto(this.crudRoleEntity.save(roleEntity));
     }
 }

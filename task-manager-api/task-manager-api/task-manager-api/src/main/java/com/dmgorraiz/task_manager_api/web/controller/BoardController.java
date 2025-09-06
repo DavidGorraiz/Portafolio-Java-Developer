@@ -2,11 +2,9 @@ package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.BoardDto;
 import com.dmgorraiz.task_manager_api.domain.service.BoardService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +31,10 @@ public class BoardController {
         }
 
         return ResponseEntity.ok(boardDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<BoardDto> save(@RequestBody BoardDto boardDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.boardService.save(boardDto));
     }
 }

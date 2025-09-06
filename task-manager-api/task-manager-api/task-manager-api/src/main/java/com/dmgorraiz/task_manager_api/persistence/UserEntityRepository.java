@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.repository.UserRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudUserEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.UserEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,12 @@ public class UserEntityRepository implements UserRepository {
     @Override
     public UserDto getById(String username) {
         return this.userMapper.toUserDto(this.crudUserEntity.findById(username).orElse(null));
+    }
+
+    @Override
+    public UserDto save(UserDto userDto) {
+        UserEntity userEntity = this.userMapper.toUserEntity(userDto);
+
+        return this.userMapper.toUserDto(this.crudUserEntity.save(userEntity));
     }
 }

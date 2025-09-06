@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.CommentDto;
 import com.dmgorraiz.task_manager_api.domain.repository.CommentRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudCommentEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.CommentEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.CommentMapper;
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +29,12 @@ public class CommentEntityRepository implements CommentRepository {
     @Override
     public CommentDto getById(long id) {
         return this.commentMapper.toDto(this.crudCommentEntity.findById(id).orElse(null));
+    }
+
+    @Override
+    public CommentDto save(CommentDto commentDto) {
+        CommentEntity commentEntity = this.commentMapper.toEntity(commentDto);
+
+        return this.commentMapper.toDto(this.crudCommentEntity.save(commentEntity));
     }
 }

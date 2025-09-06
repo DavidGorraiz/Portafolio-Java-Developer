@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserRepository {
     List<UserDto> getAll();
     UserDto getById(String username);
+    UserDto save(UserDto userDto);
 }

@@ -21,4 +21,8 @@ public class UserService {
     public UserDto getById(String username){
         return this.userRepository.getById(username);
     }
+
+    public UserDto save(UserDto userDto){
+        return this.userRepository.save(userDto);
+    }
 }

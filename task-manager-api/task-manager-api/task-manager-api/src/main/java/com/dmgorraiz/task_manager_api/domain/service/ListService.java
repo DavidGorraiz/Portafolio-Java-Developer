@@ -21,4 +21,8 @@ public class ListService {
     public ListDto getById(long id){
         return listRepository.getById(id);
     }
+
+    public ListDto save(ListDto listDto){
+        return listRepository.save(listDto);
+    }
 }

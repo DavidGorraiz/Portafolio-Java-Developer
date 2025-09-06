@@ -21,4 +21,8 @@ public class RoleService {
     public RoleDto getById(String role){
         return roleRepository.getById(role);
     }
+
+    public RoleDto save(RoleDto roleDto){
+        return roleRepository.save(roleDto);
+    }
 }

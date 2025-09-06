@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
 import com.dmgorraiz.task_manager_api.domain.repository.ListRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudListEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.ListEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.ListMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,11 @@ public class ListEntityRepository implements ListRepository {
     @Override
     public ListDto getById(long id) {
         return this.listMapper.toDto(this.crudListEntity.findById(id).orElse(null));
+    }
+
+    @Override
+    public ListDto save(ListDto listDto) {
+        ListEntity listEntity = this.listMapper.toEntity(listDto);
+        return this.listMapper.toDto(this.crudListEntity.save(listEntity));
     }
 }

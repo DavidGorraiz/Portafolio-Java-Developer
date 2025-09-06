@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.persistence;
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.repository.TaskRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudTaskEntity;
+import com.dmgorraiz.task_manager_api.persistence.entity.TaskEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.TaskMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,11 @@ public class TaskEntityRepository implements TaskRepository {
     @Override
     public TaskDto getById(long id) {
         return this.taskMapper.toDto(this.crudTaskEntity.findById(id).orElse(null));
+    }
+
+    @Override
+    public TaskDto save(TaskDto taskDto) {
+        TaskEntity taskEntity = this.taskMapper.toEntity(taskDto);
+        return this.taskMapper.toDto(this.crudTaskEntity.save(taskEntity));
     }
 }

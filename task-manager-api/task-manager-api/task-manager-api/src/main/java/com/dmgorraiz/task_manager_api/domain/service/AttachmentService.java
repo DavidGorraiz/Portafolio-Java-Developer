@@ -21,4 +21,8 @@ public class AttachmentService {
     public AttachmentDto getById(long id) {
         return attachmentRepository.getById(id);
     }
+
+    public AttachmentDto save(AttachmentDto attachmentDto) {
+        return attachmentRepository.save(attachmentDto);
+    }
 }

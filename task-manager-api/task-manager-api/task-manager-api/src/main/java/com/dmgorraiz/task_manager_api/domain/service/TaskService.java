@@ -21,4 +21,8 @@ public class TaskService {
     public TaskDto getById(long id){
         return taskRepository.getById(id);
     }
+
+    public TaskDto save(TaskDto taskDto){
+        return taskRepository.save(taskDto);
+    }
 }
