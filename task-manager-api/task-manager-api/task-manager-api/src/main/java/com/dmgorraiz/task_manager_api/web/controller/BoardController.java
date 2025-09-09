@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.BoardDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateBoardDto;
 import com.dmgorraiz.task_manager_api.domain.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,15 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<BoardDto> save(@RequestBody BoardDto boardDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.boardService.save(boardDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BoardDto> update(@PathVariable long id ,@RequestBody UpdateBoardDto updateBoardDto) {
+        return ResponseEntity.ok(this.boardService.update(id, updateBoardDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BoardDto> delete(@PathVariable long id){
+        return ResponseEntity.ok(this.boardService.delete(id));
     }
 }

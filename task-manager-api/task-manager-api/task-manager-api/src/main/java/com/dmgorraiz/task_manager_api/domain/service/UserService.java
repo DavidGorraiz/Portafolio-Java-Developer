@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.domain.service;
 
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,13 @@ public class UserService {
 
     public UserDto save(UserDto userDto){
         return this.userRepository.save(userDto);
+    }
+
+    public UserDto update(String username,UpdateUserDto updateUserDto){
+        return this.userRepository.update(username, updateUserDto);
+    }
+
+    public UserDto delete(String username){
+        return this.userRepository.delete(username);
     }
 }

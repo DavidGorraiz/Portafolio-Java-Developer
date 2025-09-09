@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.domain.service;
 
 import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateListDto;
 import com.dmgorraiz.task_manager_api.domain.repository.ListRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,9 @@ public class ListService {
 
     public ListDto save(ListDto listDto){
         return listRepository.save(listDto);
+    }
+
+    public  ListDto update(long id, UpdateListDto updateListDto){
+        return listRepository.update(id, updateListDto);
     }
 }

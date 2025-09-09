@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,15 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(userDto));
+    }
+
+    @PutMapping("/{username}")
+    public ResponseEntity<UserDto> update(@PathVariable String username,@RequestBody UpdateUserDto updateUserDto) {
+        return ResponseEntity.ok(this.userService.update(username,updateUserDto));
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<UserDto> delete(@PathVariable String username) {
+        return ResponseEntity.ok(this.userService.delete(username));
     }
 }

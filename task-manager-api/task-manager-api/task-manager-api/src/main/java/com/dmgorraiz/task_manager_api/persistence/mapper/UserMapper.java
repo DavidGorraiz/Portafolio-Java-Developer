@@ -1,10 +1,12 @@
 package com.dmgorraiz.task_manager_api.persistence.mapper;
 
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.persistence.entity.UserEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -18,4 +20,7 @@ public interface UserMapper {
 
     @InheritInverseConfiguration
     UserEntity toUserEntity(UserDto userDto);
+
+    @Mapping(target = "disabled", source = "disable")
+    void updateUserDto(UpdateUserDto updateUserDto, @MappingTarget UserEntity userEntity);
 }

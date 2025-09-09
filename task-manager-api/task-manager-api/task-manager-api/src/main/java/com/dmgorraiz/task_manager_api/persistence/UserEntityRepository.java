@@ -1,5 +1,6 @@
 package com.dmgorraiz.task_manager_api.persistence;
 
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.repository.UserRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudUserEntity;
@@ -34,5 +35,27 @@ public class UserEntityRepository implements UserRepository {
         UserEntity userEntity = this.userMapper.toUserEntity(userDto);
 
         return this.userMapper.toUserDto(this.crudUserEntity.save(userEntity));
+    }
+
+    @Override
+    public UserDto update(String username,UpdateUserDto updateUserDto) {
+        UserEntity userEntity = this.crudUserEntity.findById(username).orElse(null);
+
+        if (userEntity == null) return null;
+
+        this.userMapper.updateUserDto(updateUserDto, userEntity);
+
+        return this.userMapper.toUserDto(this.crudUserEntity.save(userEntity));
+    }
+
+    @Override
+    public UserDto delete(String username) {
+        UserEntity userEntity = this.crudUserEntity.findById(username).orElse(null);
+
+        if (userEntity == null) return null;
+
+        this.crudUserEntity.delete(userEntity);
+
+        return this.userMapper.toUserDto(userEntity);
     }
 }

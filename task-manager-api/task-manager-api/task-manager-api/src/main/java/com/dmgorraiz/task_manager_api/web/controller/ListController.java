@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateListDto;
 import com.dmgorraiz.task_manager_api.domain.service.ListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,10 @@ public class ListController {
     @PostMapping
     public ResponseEntity<ListDto> save(@RequestBody ListDto listDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.listService.save(listDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ListDto> update(@PathVariable long id, @RequestBody UpdateListDto updateListDto) {
+        return ResponseEntity.ok(this.listService.update(id, updateListDto));
     }
 }

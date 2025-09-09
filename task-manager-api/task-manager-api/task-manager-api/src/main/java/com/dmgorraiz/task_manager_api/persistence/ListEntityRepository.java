@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateListDto;
 import com.dmgorraiz.task_manager_api.domain.repository.ListRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudListEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.ListEntity;
@@ -32,6 +33,17 @@ public class ListEntityRepository implements ListRepository {
     @Override
     public ListDto save(ListDto listDto) {
         ListEntity listEntity = this.listMapper.toEntity(listDto);
+        return this.listMapper.toDto(this.crudListEntity.save(listEntity));
+    }
+
+    @Override
+    public ListDto update(long id, UpdateListDto updateListDto) {
+        ListEntity listEntity = this.crudListEntity.findById(id).orElse(null);
+
+        if (listEntity == null) return null;
+
+        this.listMapper.updateList(updateListDto, listEntity);
+
         return this.listMapper.toDto(this.crudListEntity.save(listEntity));
     }
 }
