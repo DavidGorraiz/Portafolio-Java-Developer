@@ -34,6 +34,11 @@ public class TaskController {
         return ResponseEntity.ok(taskDto);
     }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<TaskDto>> getByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(this.taskService.getByUser(username));
+    }
+
     @PostMapping
     public ResponseEntity<TaskDto> save(@RequestBody TaskDto taskDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.taskService.save(taskDto));

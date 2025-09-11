@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.domain.service;
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
 import com.dmgorraiz.task_manager_api.domain.repository.TaskRepository;
+import com.dmgorraiz.task_manager_api.persistence.entity.TaskEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class TaskService {
 
     public TaskDto getById(long id){
         return taskRepository.getById(id);
+    }
+
+    public List<TaskDto> getByUser(String username){
+        return taskRepository.getByUser(username);
     }
 
     public TaskDto save(TaskDto taskDto){

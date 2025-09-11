@@ -31,6 +31,11 @@ public class TaskEntityRepository implements TaskRepository {
     }
 
     @Override
+    public List<TaskDto> getByUser(String username) {
+        return this.taskMapper.toDtos(this.crudTaskEntity.findTasksByUsername(username));
+    }
+
+    @Override
     public TaskDto save(TaskDto taskDto) {
         TaskEntity taskEntity = this.taskMapper.toEntity(taskDto);
         return this.taskMapper.toDto(this.crudTaskEntity.save(taskEntity));
