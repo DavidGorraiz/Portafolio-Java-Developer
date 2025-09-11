@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.CommentDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateCommentDto;
 import com.dmgorraiz.task_manager_api.domain.repository.CommentRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudCommentEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.CommentEntity;
@@ -36,5 +37,27 @@ public class CommentEntityRepository implements CommentRepository {
         CommentEntity commentEntity = this.commentMapper.toEntity(commentDto);
 
         return this.commentMapper.toDto(this.crudCommentEntity.save(commentEntity));
+    }
+
+    @Override
+    public CommentDto update(long id, UpdateCommentDto updateCommentDto) {
+        CommentEntity commentEntity = this.crudCommentEntity.findById(id).orElse(null);
+
+        if (commentEntity == null) return null;
+
+        this.commentMapper.updateComment(updateCommentDto, commentEntity);
+
+        return this.commentMapper.toDto(this.crudCommentEntity.save(commentEntity));
+    }
+
+    @Override
+    public CommentDto delete(long id) {
+        CommentEntity commentEntity = this.crudCommentEntity.findById(id).orElse(null);
+
+        if (commentEntity == null) return null;
+
+        this.crudCommentEntity.delete(commentEntity);
+
+        return this.commentMapper.toDto(commentEntity);
     }
 }

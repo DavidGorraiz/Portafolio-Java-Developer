@@ -46,4 +46,15 @@ public class ListEntityRepository implements ListRepository {
 
         return this.listMapper.toDto(this.crudListEntity.save(listEntity));
     }
+
+    @Override
+    public ListDto delete(long id) {
+        ListEntity listEntity = this.crudListEntity.findById(id).orElse(null);
+
+        if (listEntity == null) return null;
+
+        this.crudListEntity.delete(listEntity);
+
+        return this.listMapper.toDto(listEntity);
+    }
 }

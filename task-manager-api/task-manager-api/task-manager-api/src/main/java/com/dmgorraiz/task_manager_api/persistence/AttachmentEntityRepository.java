@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateAttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.repository.AttachmentRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudAttachmentEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.AttachmentEntity;
@@ -33,5 +34,27 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     public AttachmentDto save(AttachmentDto attachmentDto) {
         AttachmentEntity attachmentEntity = this.attachmentMapper.toEntity(attachmentDto);
         return this.attachmentMapper.toDto(this.crudAttachmentEntity.save(attachmentEntity));
+    }
+
+    @Override
+    public AttachmentDto update(long id, UpdateAttachmentDto updateAttachmentDto) {
+        AttachmentEntity attachmentEntity = this.crudAttachmentEntity.findById(id).orElse(null);
+
+        if (attachmentEntity == null) return null;
+
+        this.attachmentMapper.updateAttachment(updateAttachmentDto, attachmentEntity);
+
+        return this.attachmentMapper.toDto(this.crudAttachmentEntity.save(attachmentEntity));
+    }
+
+    @Override
+    public AttachmentDto delete(long id) {
+        AttachmentEntity attachmentEntity = this.crudAttachmentEntity.findById(id).orElse(null);
+
+        if (attachmentEntity == null) return null;
+
+        this.crudAttachmentEntity.delete(attachmentEntity);
+
+        return this.attachmentMapper.toDto(attachmentEntity);
     }
 }

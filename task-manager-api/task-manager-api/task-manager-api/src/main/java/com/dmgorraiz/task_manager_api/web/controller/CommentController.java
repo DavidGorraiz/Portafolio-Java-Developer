@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.CommentDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateCommentDto;
 import com.dmgorraiz.task_manager_api.domain.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,15 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDto> save(@RequestBody CommentDto commentDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.commentService.save(commentDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CommentDto> update(@PathVariable long id, @RequestBody UpdateCommentDto updateCommentDto){
+        return ResponseEntity.ok(this.commentService.update(id, updateCommentDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CommentDto> delete(@PathVariable long id){
+        return ResponseEntity.ok(this.commentService.delete(id));
     }
 }

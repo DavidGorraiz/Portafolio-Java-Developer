@@ -1,16 +1,16 @@
 -- ==========================
 -- 1. Roles
 -- ==========================
-INSERT INTO role (role) VALUES ('ADMIN') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('USER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('MODERATOR') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('GUEST') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('OWNER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('DEVELOPER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('MANAGER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('TESTER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('DESIGNER') ON CONFLICT (role) DO NOTHING;
-INSERT INTO role (role) VALUES ('VIEWER') ON CONFLICT (role) DO NOTHING;
+INSERT INTO role (id, role) VALUES (1,'ADMIN') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (2,'USER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (3,'MODERATOR') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (4,'GUEST') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (5,'OWNER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (6,'DEVELOPER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (7,'MANAGER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (8,'TESTER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (9,'DESIGNER') ON CONFLICT (id) DO NOTHING;
+INSERT INTO role (id, role) VALUES (10,'VIEWER') ON CONFLICT (id) DO NOTHING;
 
 -- ==========================
 -- 2. Users
@@ -31,18 +31,18 @@ INSERT INTO "users" (username, password, locked, disabled) VALUES
 -- ==========================
 -- 3. User_Role
 -- ==========================
-INSERT INTO user_role (username, role) VALUES
-                                           ('alice', 'ADMIN'),
-                                           ('bob', 'USER'),
-                                           ('carol', 'MODERATOR'),
-                                           ('dave', 'GUEST'),
-                                           ('eve', 'OWNER'),
-                                           ('frank', 'DEVELOPER'),
-                                           ('grace', 'MANAGER'),
-                                           ('heidi', 'TESTER'),
-                                           ('ivan', 'DESIGNER'),
-                                           ('judy', 'VIEWER')
-    ON CONFLICT (username, role) DO NOTHING;
+INSERT INTO user_role (username, role_id) VALUES
+                                           ('alice', 1),
+                                           ('bob', 2),
+                                           ('carol', 3),
+                                           ('dave', 4),
+                                           ('eve', 5),
+                                           ('frank', 6),
+                                           ('grace', 7),
+                                           ('heidi', 8),
+                                           ('ivan', 9),
+                                           ('judy', 10)
+    ON CONFLICT (username, role_id) DO NOTHING;
 
 -- ==========================
 -- 4. Boards
@@ -139,3 +139,16 @@ INSERT INTO comments (id, content, username, task_id) VALUES
                                                        (9, 'Found a security issue.', 'ivan', 9),
                                                        (10, 'Refactoring done.', 'judy', 10)
     ON CONFLICT (id) DO NOTHING;
+
+
+-- ==========================
+-- 10. Alter sequences
+-- ==========================
+
+ALTER SEQUENCE attachments_id_seq RESTART WITH 10;
+ALTER SEQUENCE board_member_id_seq RESTART WITH 10;
+ALTER SEQUENCE boards_id_seq RESTART WITH 10;
+ALTER SEQUENCE comments_id_seq RESTART WITH 10;
+ALTER SEQUENCE lists_id_seq RESTART WITH 10;
+ALTER SEQUENCE role_id_seq RESTART WITH 10;
+ALTER SEQUENCE task_id_seq RESTART WITH 10;

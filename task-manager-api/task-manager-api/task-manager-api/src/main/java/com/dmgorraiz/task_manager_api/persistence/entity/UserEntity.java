@@ -29,7 +29,10 @@ public class UserEntity {
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "role")
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"username", "role_id"})
+            }
     )
     @JsonIgnore
     private List<RoleEntity> roles;

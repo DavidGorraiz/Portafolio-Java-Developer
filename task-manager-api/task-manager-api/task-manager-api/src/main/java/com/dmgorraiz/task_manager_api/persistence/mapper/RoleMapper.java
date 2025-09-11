@@ -1,10 +1,12 @@
 package com.dmgorraiz.task_manager_api.persistence.mapper;
 
 import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateRoleDto;
 import com.dmgorraiz.task_manager_api.persistence.entity.RoleEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -17,4 +19,6 @@ public interface RoleMapper {
 
     @InheritInverseConfiguration
     RoleEntity toEntity(RoleDto roleDto);
+
+    void updateRole(UpdateRoleDto updateRoleDto, @MappingTarget RoleEntity roleEntity);
 }

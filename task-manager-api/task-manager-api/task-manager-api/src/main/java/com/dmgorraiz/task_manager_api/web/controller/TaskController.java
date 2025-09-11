@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
 import com.dmgorraiz.task_manager_api.domain.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,15 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> save(@RequestBody TaskDto taskDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.taskService.save(taskDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDto> update(@PathVariable long id, @RequestBody UpdateTaskDto updateTaskDto) {
+        return ResponseEntity.ok(this.taskService.update(id, updateTaskDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TaskDto> delete(@PathVariable long id){
+        return ResponseEntity.ok(this.taskService.delete(id));
     }
 }

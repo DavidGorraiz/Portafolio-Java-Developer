@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.domain.service;
 
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
 import com.dmgorraiz.task_manager_api.domain.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,13 @@ public class TaskService {
 
     public TaskDto save(TaskDto taskDto){
         return taskRepository.save(taskDto);
+    }
+
+    public TaskDto update(long id, UpdateTaskDto updateTaskDto){
+        return taskRepository.update(id, updateTaskDto);
+    }
+
+    public TaskDto delete(long id){
+        return taskRepository.delete(id);
     }
 }

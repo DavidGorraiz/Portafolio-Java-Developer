@@ -10,4 +10,5 @@ public interface ListRepository {
     ListDto getById(long id);
     ListDto save(ListDto listDto);
     ListDto update(long id,UpdateListDto updateListDto);
+    ListDto delete(long id);
 }

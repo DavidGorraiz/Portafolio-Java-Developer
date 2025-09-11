@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.domain.service;
 
 import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateAttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.repository.AttachmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,13 @@ public class AttachmentService {
 
     public AttachmentDto save(AttachmentDto attachmentDto) {
         return attachmentRepository.save(attachmentDto);
+    }
+
+    public AttachmentDto update(long id, UpdateAttachmentDto updateAttachmentDto) {
+        return attachmentRepository.update(id, updateAttachmentDto);
+    }
+
+    public AttachmentDto delete(long id) {
+        return attachmentRepository.delete(id);
     }
 }

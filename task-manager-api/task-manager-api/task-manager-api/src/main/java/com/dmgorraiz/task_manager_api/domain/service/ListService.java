@@ -30,4 +30,8 @@ public class ListService {
     public  ListDto update(long id, UpdateListDto updateListDto){
         return listRepository.update(id, updateListDto);
     }
+
+    public ListDto delete(long id){
+        return listRepository.delete(id);
+    }
 }

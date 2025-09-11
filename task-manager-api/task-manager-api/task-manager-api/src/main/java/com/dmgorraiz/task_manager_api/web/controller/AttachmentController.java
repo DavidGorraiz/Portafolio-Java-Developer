@@ -1,6 +1,7 @@
 package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
+import com.dmgorraiz.task_manager_api.domain.dto.UpdateAttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.service.AttachmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,15 @@ public class AttachmentController {
     @PostMapping
     public ResponseEntity<AttachmentDto> save(@RequestBody AttachmentDto attachmentDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.attachmentService.save(attachmentDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AttachmentDto> update(@PathVariable long id, @RequestBody UpdateAttachmentDto updateAttachmentDto) {
+        return ResponseEntity.ok(this.attachmentService.update(id, updateAttachmentDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AttachmentDto> delete(@PathVariable long id) {
+        return ResponseEntity.ok(this.attachmentService.delete(id));
     }
 }

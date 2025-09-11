@@ -43,4 +43,9 @@ public class ListController {
     public ResponseEntity<ListDto> update(@PathVariable long id, @RequestBody UpdateListDto updateListDto) {
         return ResponseEntity.ok(this.listService.update(id, updateListDto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ListDto> delete(@PathVariable long id) {
+        return ResponseEntity.ok(this.listService.delete(id));
+    }
 }
