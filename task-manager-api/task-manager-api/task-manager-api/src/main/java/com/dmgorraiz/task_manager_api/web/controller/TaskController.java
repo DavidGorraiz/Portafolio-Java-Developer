@@ -2,6 +2,7 @@ package com.dmgorraiz.task_manager_api.web.controller;
 
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
+import com.dmgorraiz.task_manager_api.domain.service.Asistance;
 import com.dmgorraiz.task_manager_api.domain.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,11 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final Asistance asistance;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, Asistance asistance) {
         this.taskService = taskService;
+        this.asistance = asistance;
     }
 
     @GetMapping
@@ -37,6 +40,11 @@ public class TaskController {
     @GetMapping("/user/{username}")
     public ResponseEntity<List<TaskDto>> getByUsername(@PathVariable String username) {
         return ResponseEntity.ok(this.taskService.getByUser(username));
+    }
+
+    @GetMapping("/summary/{username}")
+    public ResponseEntity<String> getSummary(@PathVariable String username) {
+        return ResponseEntity.ok(this.asistance.generateSummary(username));
     }
 
     @PostMapping

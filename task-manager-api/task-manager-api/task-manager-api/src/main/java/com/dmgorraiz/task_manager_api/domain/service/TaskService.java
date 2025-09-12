@@ -4,6 +4,7 @@ import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
 import com.dmgorraiz.task_manager_api.domain.repository.TaskRepository;
 import com.dmgorraiz.task_manager_api.persistence.entity.TaskEntity;
+import dev.langchain4j.agent.tool.Tool;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class TaskService {
         return taskRepository.getById(id);
     }
 
+    @Tool("Busca las tareas segun el usuario")
     public List<TaskDto> getByUser(String username){
         return taskRepository.getByUser(username);
     }
