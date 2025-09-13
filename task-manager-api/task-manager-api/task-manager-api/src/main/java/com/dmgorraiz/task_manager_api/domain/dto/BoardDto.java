@@ -6,7 +6,7 @@ public record BoardDto(
         Long id,
         String name,
         String description,
-        String username,
+        Long ownerId,
         List<BoardMemberDto> membersDto
 ) {
 }

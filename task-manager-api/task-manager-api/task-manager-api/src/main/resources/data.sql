@@ -15,65 +15,65 @@ INSERT INTO role (id, role) VALUES (10,'VIEWER') ON CONFLICT (id) DO NOTHING;
 -- ==========================
 -- 2. Users
 -- ==========================
-INSERT INTO "users" (username, password, locked, disabled) VALUES
-                                                              ('alice', 'pass1', false, false),
-                                                              ('bob', 'pass2', false, false),
-                                                              ('carol', 'pass3', false, false),
-                                                              ('dave', 'pass4', false, false),
-                                                              ('eve', 'pass5', false, false),
-                                                              ('frank', 'pass6', false, false),
-                                                              ('grace', 'pass7', false, false),
-                                                              ('heidi', 'pass8', false, false),
-                                                              ('ivan', 'pass9', false, false),
-                                                              ('judy', 'pass10', false, false)
-    ON CONFLICT (username) DO NOTHING;
+INSERT INTO "users" (id, username, password, locked, disabled) VALUES
+                                                              (1,'alice', 'pass1', false, false),
+                                                              (2,'bob', 'pass2', false, false),
+                                                              (3,'carol', 'pass3', false, false),
+                                                              (4,'dave', 'pass4', false, false),
+                                                              (5,'eve', 'pass5', false, false),
+                                                              (6,'frank', 'pass6', false, false),
+                                                              (7,'grace', 'pass7', false, false),
+                                                              (8,'heidi', 'pass8', false, false),
+                                                              (9,'ivan', 'pass9', false, false),
+                                                              (10,'judy', 'pass10', false, false)
+    ON CONFLICT (id) DO NOTHING;
 
 -- ==========================
 -- 3. User_Role
 -- ==========================
-INSERT INTO user_role (username, role_id) VALUES
-                                           ('alice', 1),
-                                           ('bob', 2),
-                                           ('carol', 3),
-                                           ('dave', 4),
-                                           ('eve', 5),
-                                           ('frank', 6),
-                                           ('grace', 7),
-                                           ('heidi', 8),
-                                           ('ivan', 9),
-                                           ('judy', 10)
-    ON CONFLICT (username, role_id) DO NOTHING;
+INSERT INTO user_role (user_id, role_id) VALUES
+                                           (1, 1),
+                                           (2, 2),
+                                           (3, 3),
+                                           (4, 4),
+                                           (5, 5),
+                                           (6, 6),
+                                           (7, 7),
+                                           (8, 8),
+                                           (9, 9),
+                                           (10, 10)
+    ON CONFLICT (user_id, role_id) DO NOTHING;
 
 -- ==========================
 -- 4. Boards
 -- ==========================
-INSERT INTO boards (id, name, description, username) VALUES
-                                                     (1, 'Project Alpha', 'Main project board', 'alice'),
-                                                     (2, 'Project Beta', 'Secondary board', 'bob'),
-                                                     (3, 'Project Gamma', 'Testing board', 'carol'),
-                                                     (4, 'Project Delta', 'Development board', 'dave'),
-                                                     (5, 'Project Epsilon', 'Research board', 'eve'),
-                                                     (6, 'Project Zeta', 'UI/UX design board', 'frank'),
-                                                     (7, 'Project Eta', 'QA board', 'grace'),
-                                                     (8, 'Project Theta', 'Documentation board', 'heidi'),
-                                                     (9, 'Project Iota', 'Client board', 'ivan'),
-                                                     (10, 'Project Kappa', 'Experimental board', 'judy')
+INSERT INTO boards (id, name, description, owner_id) VALUES
+                                                     (1, 'Project Alpha', 'Main project board', 1),
+                                                     (2, 'Project Beta', 'Secondary board', 2),
+                                                     (3, 'Project Gamma', 'Testing board', 3),
+                                                     (4, 'Project Delta', 'Development board', 4),
+                                                     (5, 'Project Epsilon', 'Research board', 5),
+                                                     (6, 'Project Zeta', 'UI/UX design board', 6),
+                                                     (7, 'Project Eta', 'QA board', 7),
+                                                     (8, 'Project Theta', 'Documentation board', 8),
+                                                     (9, 'Project Iota', 'Client board',9),
+                                                     (10, 'Project Kappa', 'Experimental board', 10)
     ON CONFLICT (id) DO NOTHING;
 
 -- ==========================
 -- 5. Board Members
 -- ==========================
-INSERT INTO board_member (id, board_id, username, role_in_board) VALUES
-                                                                   (1, 1, 'alice', 'OWNER'),
-                                                                   (2, 1, 'bob', 'COLLABORATOR'),
-                                                                   (3, 2, 'carol', 'OWNER'),
-                                                                   (4, 2, 'dave', 'COLLABORATOR'),
-                                                                   (5, 3, 'eve', 'OWNER'),
-                                                                   (6, 3, 'frank', 'COLLABORATOR'),
-                                                                   (7, 4, 'grace', 'OWNER'),
-                                                                   (8, 5, 'heidi', 'OWNER'),
-                                                                   (9, 6, 'ivan', 'OWNER'),
-                                                                   (10, 7, 'judy', 'OWNER')
+INSERT INTO board_member (id, board_id, user_id, role_in_board) VALUES
+                                                                   (1, 1, 1, 'OWNER'),
+                                                                   (2, 1, 2, 'COLLABORATOR'),
+                                                                   (3, 2, 3, 'OWNER'),
+                                                                   (4, 2, 4, 'COLLABORATOR'),
+                                                                   (5, 3, 5, 'OWNER'),
+                                                                   (6, 3, 6, 'COLLABORATOR'),
+                                                                   (7, 4, 7, 'OWNER'),
+                                                                   (8, 5, 8, 'OWNER'),
+                                                                   (9, 6, 9, 'OWNER'),
+                                                                   (10, 7, 10, 'OWNER')
     ON CONFLICT (id) DO NOTHING;
 
 -- ==========================
@@ -111,33 +111,33 @@ INSERT INTO task (id, title, description, due_date, position, status, list_id, b
 -- ==========================
 -- 8. Attachments
 -- ==========================
-INSERT INTO attachments (id, file_url, username, task_id) VALUES
-                                                           (1, 'http://files.com/specs1.pdf', 'alice', 1),
-                                                           (2, 'http://files.com/specs2.pdf', 'bob', 2),
-                                                           (3, 'http://files.com/specs3.pdf', 'carol', 3),
-                                                           (4, 'http://files.com/specs4.pdf', 'dave', 4),
-                                                           (5, 'http://files.com/specs5.pdf', 'eve', 5),
-                                                           (6, 'http://files.com/specs6.pdf', 'frank', 6),
-                                                           (7, 'http://files.com/specs7.pdf', 'grace', 7),
-                                                           (8, 'http://files.com/specs8.pdf', 'heidi', 8),
-                                                           (9, 'http://files.com/specs9.pdf', 'ivan', 9),
-                                                           (10, 'http://files.com/specs10.pdf', 'judy', 10)
+INSERT INTO attachments (id, file_url, user_id, task_id) VALUES
+                                                           (1, 'http://files.com/specs1.pdf', 1, 1),
+                                                           (2, 'http://files.com/specs2.pdf', 2, 2),
+                                                           (3, 'http://files.com/specs3.pdf', 3, 3),
+                                                           (4, 'http://files.com/specs4.pdf', 4, 4),
+                                                           (5, 'http://files.com/specs5.pdf', 5, 5),
+                                                           (6, 'http://files.com/specs6.pdf', 6, 6),
+                                                           (7, 'http://files.com/specs7.pdf', 7, 7),
+                                                           (8, 'http://files.com/specs8.pdf', 8, 8),
+                                                           (9, 'http://files.com/specs9.pdf', 9, 9),
+                                                           (10, 'http://files.com/specs10.pdf', 10, 10)
     ON CONFLICT (id) DO NOTHING;
 
 -- ==========================
 -- 9. Comments
 -- ==========================
-INSERT INTO comments (id, content, username, task_id) VALUES
-                                                       (1, 'Looks good!', 'alice', 1),
-                                                       (2, 'I will take this task.', 'bob', 2),
-                                                       (3, 'Bug confirmed.', 'carol', 3),
-                                                       (4, 'UI needs improvements.', 'dave', 4),
-                                                       (5, 'Tests are missing.', 'eve', 5),
-                                                       (6, 'Deployed successfully.', 'frank', 6),
-                                                       (7, 'Client is happy.', 'grace', 7),
-                                                       (8, 'Docs updated.', 'heidi', 8),
-                                                       (9, 'Found a security issue.', 'ivan', 9),
-                                                       (10, 'Refactoring done.', 'judy', 10)
+INSERT INTO comments (id, content, user_id, task_id) VALUES
+                                                       (1, 'Looks good!', 1, 1),
+                                                       (2, 'I will take this task.', 2, 2),
+                                                       (3, 'Bug confirmed.', 3, 3),
+                                                       (4, 'UI needs improvements.', 4, 4),
+                                                       (5, 'Tests are missing.', 5, 5),
+                                                       (6, 'Deployed successfully.', 6, 6),
+                                                       (7, 'Client is happy.', 7, 7),
+                                                       (8, 'Docs updated.', 8, 8),
+                                                       (9, 'Found a security issue.', 9, 9),
+                                                       (10, 'Refactoring done.', 10, 10)
     ON CONFLICT (id) DO NOTHING;
 
 
@@ -145,10 +145,11 @@ INSERT INTO comments (id, content, username, task_id) VALUES
 -- 10. Alter sequences
 -- ==========================
 
-ALTER SEQUENCE attachments_id_seq RESTART WITH 10;
-ALTER SEQUENCE board_member_id_seq RESTART WITH 10;
-ALTER SEQUENCE boards_id_seq RESTART WITH 10;
-ALTER SEQUENCE comments_id_seq RESTART WITH 10;
-ALTER SEQUENCE lists_id_seq RESTART WITH 10;
-ALTER SEQUENCE role_id_seq RESTART WITH 10;
-ALTER SEQUENCE task_id_seq RESTART WITH 10;
+ALTER SEQUENCE attachments_id_seq RESTART WITH 11;
+ALTER SEQUENCE board_member_id_seq RESTART WITH 11;
+ALTER SEQUENCE boards_id_seq RESTART WITH 11;
+ALTER SEQUENCE comments_id_seq RESTART WITH 11;
+ALTER SEQUENCE lists_id_seq RESTART WITH 11;
+ALTER SEQUENCE role_id_seq RESTART WITH 11;
+ALTER SEQUENCE users_id_seq RESTART WITH 11;
+ALTER SEQUENCE task_id_seq RESTART WITH 11;

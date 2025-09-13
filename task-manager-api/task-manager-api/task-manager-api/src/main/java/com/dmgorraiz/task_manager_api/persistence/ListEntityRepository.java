@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.ListDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateListDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.ListRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudListEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.ListEntity;
@@ -40,7 +42,9 @@ public class ListEntityRepository implements ListRepository {
     public ListDto update(long id, UpdateListDto updateListDto) {
         ListEntity listEntity = this.crudListEntity.findById(id).orElse(null);
 
-        if (listEntity == null) return null;
+        if (listEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.listMapper.updateList(updateListDto, listEntity);
 
@@ -51,7 +55,9 @@ public class ListEntityRepository implements ListRepository {
     public ListDto delete(long id) {
         ListEntity listEntity = this.crudListEntity.findById(id).orElse(null);
 
-        if (listEntity == null) return null;
+        if (listEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudListEntity.delete(listEntity);
 

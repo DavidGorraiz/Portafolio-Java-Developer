@@ -11,13 +11,13 @@ public class AttachmentEntity {
     private Long id;
     @Column(name = "file_url",nullable = false)
     private String fileUrl;
-    @Column(nullable = false)
-    private String username;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
     @Column(name = "task_id",nullable = false)
     private Long taskId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     private UserEntity user;
 
@@ -42,12 +42,12 @@ public class AttachmentEntity {
         this.fileUrl = fileUrl;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getTaskId() {

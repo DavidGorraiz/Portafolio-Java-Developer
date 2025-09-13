@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface UserRepository {
     List<UserDto> getAll();
-    UserDto getById(String username);
+    UserDto getById(long id);
     UserDto save(UserDto userDto);
-    UserDto update(String username,UpdateUserDto updateUserDto);
-    UserDto delete(String username);
+    UserDto update(long id,UpdateUserDto updateUserDto);
+    UserDto delete(long id);
 }

@@ -23,9 +23,9 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAll());
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserDto> getById(@PathVariable String username) {
-        UserDto userDto = this.userService.getById(username);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getById(@PathVariable long id) {
+        UserDto userDto = this.userService.getById(id);
 
         if (userDto == null) {
             return ResponseEntity.notFound().build();
@@ -39,13 +39,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(userDto));
     }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<UserDto> update(@PathVariable String username,@RequestBody UpdateUserDto updateUserDto) {
-        return ResponseEntity.ok(this.userService.update(username,updateUserDto));
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> update(@PathVariable long id,@RequestBody UpdateUserDto updateUserDto) {
+        return ResponseEntity.ok(this.userService.update(id,updateUserDto));
     }
 
-    @DeleteMapping("/{username}")
-    public ResponseEntity<UserDto> delete(@PathVariable String username) {
-        return ResponseEntity.ok(this.userService.delete(username));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserDto> delete(@PathVariable long id) {
+        return ResponseEntity.ok(this.userService.delete(id));
     }
 }

@@ -19,19 +19,19 @@ public class UserService {
         return this.userRepository.getAll();
     }
 
-    public UserDto getById(String username){
-        return this.userRepository.getById(username);
+    public UserDto getById(long id){
+        return this.userRepository.getById(id);
     }
 
     public UserDto save(UserDto userDto){
         return this.userRepository.save(userDto);
     }
 
-    public UserDto update(String username,UpdateUserDto updateUserDto){
-        return this.userRepository.update(username, updateUserDto);
+    public UserDto update(long id,UpdateUserDto updateUserDto){
+        return this.userRepository.update(id, updateUserDto);
     }
 
-    public UserDto delete(String username){
-        return this.userRepository.delete(username);
+    public UserDto delete(long id){
+        return this.userRepository.delete(id);
     }
 }

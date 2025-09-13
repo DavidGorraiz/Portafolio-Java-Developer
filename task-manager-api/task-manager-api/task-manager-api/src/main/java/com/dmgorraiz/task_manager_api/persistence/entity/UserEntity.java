@@ -9,6 +9,10 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -28,10 +32,10 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "username"),
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"username", "role_id"})
+                @UniqueConstraint(columnNames = {"user_id", "role_id"})
             }
     )
     @JsonIgnore
@@ -44,6 +48,14 @@ public class UserEntity {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CommentEntity> comments;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

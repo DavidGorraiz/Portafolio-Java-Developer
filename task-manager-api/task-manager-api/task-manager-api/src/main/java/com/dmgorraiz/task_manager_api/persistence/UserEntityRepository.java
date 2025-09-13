@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
+import com.dmgorraiz.task_manager_api.domain.exception.UserNotExistException;
+import com.dmgorraiz.task_manager_api.domain.exception.UsernameAlreadyExistsException;
 import com.dmgorraiz.task_manager_api.domain.repository.UserRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudUserEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.UserEntity;
@@ -26,22 +28,28 @@ public class UserEntityRepository implements UserRepository {
     }
 
     @Override
-    public UserDto getById(String username) {
-        return this.userMapper.toUserDto(this.crudUserEntity.findById(username).orElse(null));
+    public UserDto getById(long id) {
+        return this.userMapper.toUserDto(this.crudUserEntity.findById(id).orElse(null));
     }
 
     @Override
     public UserDto save(UserDto userDto) {
+        if (this.crudUserEntity.findFirstByUsername(userDto.username()) != null) {
+            throw new UsernameAlreadyExistsException(userDto.username());
+        }
+
         UserEntity userEntity = this.userMapper.toUserEntity(userDto);
 
         return this.userMapper.toUserDto(this.crudUserEntity.save(userEntity));
     }
 
     @Override
-    public UserDto update(String username,UpdateUserDto updateUserDto) {
-        UserEntity userEntity = this.crudUserEntity.findById(username).orElse(null);
+    public UserDto update(long id,UpdateUserDto updateUserDto) {
+        UserEntity userEntity = this.crudUserEntity.findById(id).orElse(null);
 
-        if (userEntity == null) return null;
+        if (userEntity == null){
+            throw new UserNotExistException(id);
+        }
 
         this.userMapper.updateUserDto(updateUserDto, userEntity);
 
@@ -49,10 +57,12 @@ public class UserEntityRepository implements UserRepository {
     }
 
     @Override
-    public UserDto delete(String username) {
-        UserEntity userEntity = this.crudUserEntity.findById(username).orElse(null);
+    public UserDto delete(long id) {
+        UserEntity userEntity = this.crudUserEntity.findById(id).orElse(null);
 
-        if (userEntity == null) return null;
+        if (userEntity == null) {
+            throw new UserNotExistException(id);
+        }
 
         this.crudUserEntity.delete(userEntity);
 

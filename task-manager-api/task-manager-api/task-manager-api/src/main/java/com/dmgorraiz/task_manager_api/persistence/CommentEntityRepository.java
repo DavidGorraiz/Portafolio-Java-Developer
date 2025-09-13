@@ -2,10 +2,13 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.CommentDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateCommentDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.CommentRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudCommentEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.CommentEntity;
 import com.dmgorraiz.task_manager_api.persistence.mapper.CommentMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,7 +46,9 @@ public class CommentEntityRepository implements CommentRepository {
     public CommentDto update(long id, UpdateCommentDto updateCommentDto) {
         CommentEntity commentEntity = this.crudCommentEntity.findById(id).orElse(null);
 
-        if (commentEntity == null) return null;
+        if (commentEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.commentMapper.updateComment(updateCommentDto, commentEntity);
 
@@ -54,7 +59,9 @@ public class CommentEntityRepository implements CommentRepository {
     public CommentDto delete(long id) {
         CommentEntity commentEntity = this.crudCommentEntity.findById(id).orElse(null);
 
-        if (commentEntity == null) return null;
+        if (commentEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudCommentEntity.delete(commentEntity);
 

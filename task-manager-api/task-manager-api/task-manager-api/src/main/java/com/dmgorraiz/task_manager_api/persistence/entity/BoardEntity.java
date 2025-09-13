@@ -15,11 +15,11 @@ public class BoardEntity {
     private String name;
     @Column(nullable = false)
     private String description;
-    @Column(nullable = false)
-    private String username;
+    @Column(name = "owner_id",nullable = false)
+    private Long ownerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "owner_idd", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     private UserEntity owner;
 
@@ -58,12 +58,12 @@ public class BoardEntity {
         this.description = description;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public UserEntity getOwner() {

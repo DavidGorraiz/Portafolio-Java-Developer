@@ -11,8 +11,8 @@ public class BoardMemberEntity {
     private Long id;
     @Column(name = "board_id", nullable = false)
     private Long boardId;
-    @Column(nullable = false)
-    private String username;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
     @Column(name = "role_in_board",nullable = false)
     private String roleInBoard;
 
@@ -22,7 +22,7 @@ public class BoardMemberEntity {
     private BoardEntity board;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     private UserEntity user;
 
@@ -42,12 +42,12 @@ public class BoardMemberEntity {
         this.boardId = boardId;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getRoleInBoard() {

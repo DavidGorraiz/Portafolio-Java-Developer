@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.TaskRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudTaskEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.TaskEntity;
@@ -45,7 +47,9 @@ public class TaskEntityRepository implements TaskRepository {
     public TaskDto update(long id, UpdateTaskDto updateTaskDto) {
         TaskEntity taskEntity = this.crudTaskEntity.findById(id).orElse(null);
 
-        if (taskEntity == null) return null;
+        if (taskEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.taskMapper.updateTask(updateTaskDto, taskEntity);
 
@@ -56,7 +60,9 @@ public class TaskEntityRepository implements TaskRepository {
     public TaskDto delete(long id) {
         TaskEntity taskEntity = this.crudTaskEntity.findById(id).orElse(null);
 
-        if (taskEntity == null) return null;
+        if (taskEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudTaskEntity.delete(taskEntity);
 

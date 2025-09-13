@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateRoleDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.RoleRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudRoleEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.RoleEntity;
@@ -34,6 +36,7 @@ public class RoleEntityRepository implements RoleRepository {
     @Override
     public RoleDto save(RoleDto role) {
         RoleEntity roleEntity = this.roleMapper.toEntity(role);
+
         return this.roleMapper.toDto(this.crudRoleEntity.save(roleEntity));
     }
 
@@ -41,7 +44,9 @@ public class RoleEntityRepository implements RoleRepository {
     public RoleDto update(long id, UpdateRoleDto updateRoleDto) {
         RoleEntity roleEntity = this.crudRoleEntity.findById(id).orElse(null);
 
-        if (roleEntity == null) return null;
+        if (roleEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.roleMapper.updateRole(updateRoleDto, roleEntity);
 
@@ -52,7 +57,9 @@ public class RoleEntityRepository implements RoleRepository {
     public RoleDto delete(long id) {
         RoleEntity roleEntity = this.crudRoleEntity.findById(id).orElse(null);
 
-        if (roleEntity == null) return null;
+        if (roleEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudRoleEntity.delete(roleEntity);
 

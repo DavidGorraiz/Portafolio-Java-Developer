@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.BoardDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateBoardDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.BoardRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudBoardEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.BoardEntity;
@@ -41,7 +43,9 @@ public class BoardEntityRepository implements BoardRepository {
     public BoardDto update(long id, UpdateBoardDto updateBoardDto) {
         BoardEntity boardEntity = this.crudBoardEntity.findById(id).orElse(null);
 
-        if (boardEntity == null) return null;
+        if (boardEntity == null){
+            throw new IdNotExistException(id);
+        }
 
         this.boardMapper.updateBoard(updateBoardDto, boardEntity);
 
@@ -52,7 +56,9 @@ public class BoardEntityRepository implements BoardRepository {
     public BoardDto delete(long id) {
         BoardEntity boardEntity = this.crudBoardEntity.findById(id).orElse(null);
 
-        if (boardEntity == null) return null;
+        if (boardEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudBoardEntity.delete(boardEntity);
 

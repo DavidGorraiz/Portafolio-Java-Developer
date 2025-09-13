@@ -2,6 +2,8 @@ package com.dmgorraiz.task_manager_api.persistence;
 
 import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateAttachmentDto;
+import com.dmgorraiz.task_manager_api.domain.exception.IdAlreadyExistsException;
+import com.dmgorraiz.task_manager_api.domain.exception.IdNotExistException;
 import com.dmgorraiz.task_manager_api.domain.repository.AttachmentRepository;
 import com.dmgorraiz.task_manager_api.persistence.crud.CrudAttachmentEntity;
 import com.dmgorraiz.task_manager_api.persistence.entity.AttachmentEntity;
@@ -33,6 +35,7 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     @Override
     public AttachmentDto save(AttachmentDto attachmentDto) {
         AttachmentEntity attachmentEntity = this.attachmentMapper.toEntity(attachmentDto);
+
         return this.attachmentMapper.toDto(this.crudAttachmentEntity.save(attachmentEntity));
     }
 
@@ -40,7 +43,9 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     public AttachmentDto update(long id, UpdateAttachmentDto updateAttachmentDto) {
         AttachmentEntity attachmentEntity = this.crudAttachmentEntity.findById(id).orElse(null);
 
-        if (attachmentEntity == null) return null;
+        if (attachmentEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.attachmentMapper.updateAttachment(updateAttachmentDto, attachmentEntity);
 
@@ -51,7 +56,9 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     public AttachmentDto delete(long id) {
         AttachmentEntity attachmentEntity = this.crudAttachmentEntity.findById(id).orElse(null);
 
-        if (attachmentEntity == null) return null;
+        if (attachmentEntity == null) {
+            throw new IdNotExistException(id);
+        }
 
         this.crudAttachmentEntity.delete(attachmentEntity);
 
