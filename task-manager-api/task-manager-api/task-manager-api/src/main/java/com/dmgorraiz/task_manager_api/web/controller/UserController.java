@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.web.controller;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateUserDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UserDto;
 import com.dmgorraiz.task_manager_api.domain.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +36,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> save(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> save(@RequestBody @Valid UserDto userDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(userDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable long id,@RequestBody UpdateUserDto updateUserDto) {
+    public ResponseEntity<UserDto> update(@PathVariable long id,@RequestBody @Valid UpdateUserDto updateUserDto) {
         return ResponseEntity.ok(this.userService.update(id,updateUserDto));
     }
 

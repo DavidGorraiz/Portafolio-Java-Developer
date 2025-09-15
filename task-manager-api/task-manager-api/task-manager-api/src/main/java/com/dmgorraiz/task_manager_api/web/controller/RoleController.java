@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.web.controller;
 import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateRoleDto;
 import com.dmgorraiz.task_manager_api.domain.service.RoleService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +36,12 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<RoleDto> save(@RequestBody RoleDto roleDto) {
+    public ResponseEntity<RoleDto> save(@RequestBody @Valid RoleDto roleDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.roleService.save(roleDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleDto> update(@PathVariable long id, @RequestBody UpdateRoleDto updateRoleDto) {
+    public ResponseEntity<RoleDto> update(@PathVariable long id, @RequestBody @Valid UpdateRoleDto updateRoleDto) {
         return ResponseEntity.ok(this.roleService.update(id, updateRoleDto));
     }
 

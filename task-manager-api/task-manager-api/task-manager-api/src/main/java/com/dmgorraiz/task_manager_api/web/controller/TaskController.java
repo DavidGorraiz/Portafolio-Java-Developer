@@ -4,6 +4,7 @@ import com.dmgorraiz.task_manager_api.domain.dto.TaskDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateTaskDto;
 import com.dmgorraiz.task_manager_api.domain.service.Asistance;
 import com.dmgorraiz.task_manager_api.domain.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,12 +49,12 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDto> save(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> save(@RequestBody @Valid TaskDto taskDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.taskService.save(taskDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskDto> update(@PathVariable long id, @RequestBody UpdateTaskDto updateTaskDto) {
+    public ResponseEntity<TaskDto> update(@PathVariable long id, @RequestBody @Valid UpdateTaskDto updateTaskDto) {
         return ResponseEntity.ok(this.taskService.update(id, updateTaskDto));
     }
 

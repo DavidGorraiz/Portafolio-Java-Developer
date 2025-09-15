@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.web.controller;
 import com.dmgorraiz.task_manager_api.domain.dto.AttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateAttachmentDto;
 import com.dmgorraiz.task_manager_api.domain.service.AttachmentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +36,12 @@ public class AttachmentController {
     }
 
     @PostMapping
-    public ResponseEntity<AttachmentDto> save(@RequestBody AttachmentDto attachmentDto) {
+    public ResponseEntity<AttachmentDto> save(@RequestBody @Valid AttachmentDto attachmentDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.attachmentService.save(attachmentDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AttachmentDto> update(@PathVariable long id, @RequestBody UpdateAttachmentDto updateAttachmentDto) {
+    public ResponseEntity<AttachmentDto> update(@PathVariable long id, @RequestBody @Valid UpdateAttachmentDto updateAttachmentDto) {
         return ResponseEntity.ok(this.attachmentService.update(id, updateAttachmentDto));
     }
 
