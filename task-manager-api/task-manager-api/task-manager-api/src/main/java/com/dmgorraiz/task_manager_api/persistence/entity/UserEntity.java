@@ -18,9 +18,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private Boolean locked;
+    private Boolean locked = false;
     @Column(nullable = false)
-    private Boolean disabled;
+    private Boolean disabled = false;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BoardEntity> boards;
