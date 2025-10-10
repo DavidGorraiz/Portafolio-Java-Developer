@@ -33,6 +33,11 @@ public class AttachmentEntityRepository implements AttachmentRepository {
     }
 
     @Override
+    public List<AttachmentDto> getByUsername(String username) {
+        return this.attachmentMapper.toDtos(this.crudAttachmentEntity.findAllByUserUsername(username));
+    }
+
+    @Override
     public AttachmentDto save(AttachmentDto attachmentDto) {
         AttachmentEntity attachmentEntity = this.attachmentMapper.toEntity(attachmentDto);
 

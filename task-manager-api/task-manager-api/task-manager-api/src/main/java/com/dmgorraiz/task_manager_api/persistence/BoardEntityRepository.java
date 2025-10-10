@@ -33,6 +33,16 @@ public class BoardEntityRepository implements BoardRepository {
     }
 
     @Override
+    public List<BoardDto> getByOwner(String owner) {
+        return this.boardMapper.toBoadrDtoList(this.crudBoardEntity.findByOwnerUsername(owner));
+    }
+
+    @Override
+    public List<BoardDto> getByMember(String member) {
+        return this.boardMapper.toBoadrDtoList(this.crudBoardEntity.findAllByMembersUserUsername(member));
+    }
+
+    @Override
     public BoardDto save(BoardDto boardDto) {
         BoardEntity boardEntity = this.boardMapper.toBoardEntity(boardDto);
 

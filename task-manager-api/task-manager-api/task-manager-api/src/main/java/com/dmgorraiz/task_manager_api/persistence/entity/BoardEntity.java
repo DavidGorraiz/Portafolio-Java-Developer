@@ -1,13 +1,18 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditBoardListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "boards")
-public class BoardEntity {
+@EntityListeners({AuditingEntityListener.class, AuditBoardListener.class})
+public class BoardEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +24,7 @@ public class BoardEntity {
     private Long ownerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_idd", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     private UserEntity owner;
 
@@ -96,5 +101,15 @@ public class BoardEntity {
 
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ownerId=" + ownerId +
+                '}';
     }
 }

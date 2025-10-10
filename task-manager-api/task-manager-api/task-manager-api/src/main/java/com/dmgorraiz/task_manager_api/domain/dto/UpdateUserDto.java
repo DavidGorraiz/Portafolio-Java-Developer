@@ -9,6 +9,9 @@ public record UpdateUserDto(
         @NotBlank(message = "Password is obligatory")
         String password,
 
+        @NotBlank(message = "Email is obligatory")
+        String email,
+
         Boolean locked,
         Boolean disable
 ) {

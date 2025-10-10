@@ -15,17 +15,17 @@ INSERT INTO role (id, role) VALUES (10,'VIEWER') ON CONFLICT (id) DO NOTHING;
 -- ==========================
 -- 2. Users
 -- ==========================
-INSERT INTO "users" (id, username, password, locked, disabled) VALUES
-                                                              (1,'alice', 'pass1', false, false),
-                                                              (2,'bob', 'pass2', false, false),
-                                                              (3,'carol', 'pass3', false, false),
-                                                              (4,'dave', 'pass4', false, false),
-                                                              (5,'eve', 'pass5', false, false),
-                                                              (6,'frank', 'pass6', false, false),
-                                                              (7,'grace', 'pass7', false, false),
-                                                              (8,'heidi', 'pass8', false, false),
-                                                              (9,'ivan', 'pass9', false, false),
-                                                              (10,'judy', 'pass10', false, false)
+INSERT INTO "users" (id, username, password, email, locked, disabled) VALUES
+                                                              (1,'alice', '$2y$10$jBOcauXWEucpfqlvUqDEBOgm4pYxy4loK5meaIu4rEDopjgE6YoLG','alice@emial.com', false, false), --pass1
+                                                              (2,'bob', '$2y$10$Qb6VqJ2j6XL.h3qNOnbdvu7blGBT7fIC0tN1.ptbS7mB/1Py3LL4K', 'bob@emial.com',false, false), --pass2
+                                                              (3,'carol', '$2y$10$Ijg8BNJrFwmQy/ZF68yknObl7WPQGV538.HA6QIp4ZeM9dBSRJ.qC', 'carol@emial.com',false, false), --pass3
+                                                              (4,'dave', '$2y$10$TmK196ufKWPXpKdG3NpnsuTF0MHGTSvVIrvFzkIHdaJD4Tkbf4dlK', 'dave@emial.com',false, false), --pass4
+                                                              (5,'eve', '$2y$10$UvS.H1KUjwMDNifvI7Ypn.sO1UlgWTXqGh8u0D3q.fItY51FSGAfa', 'eve@emial.com',false, false), --pass5
+                                                              (6,'frank', '$2y$10$b0hUwPkUHjGqPrXNsi5KRuf98zhsFlEYGc/AZ3/ADu0IeXIx.Itla', 'frank@emial.com',false, false), --pass6
+                                                              (7,'grace', '$2y$10$reIhA7g3RX3cKv8YLBpyTORFuOkdvayZBMA9n.S5nsKl6bpNzb2Y2', 'grace@emial.com',false, false), --pass7
+                                                              (8,'heidi', '$2y$10$bKgZ4itl9NnFwKtsgCQOnOSxUQvFo6qeAjPKEZOvTvfm0h/rNyfRS', 'heidi@emial.com',false, false), --pass8
+                                                              (9,'ivan', '$2y$10$4xZZvNbKEwD2dRWC/9zsZOj5cbokSZz.s/SszXlqg2zdt.yAiCEHS', 'ivan@emial.com',false, false), --pass9
+                                                              (10,'judy', '$2y$10$9MnQE/e.I4qNM8yH3PhYCuIDEgJMtzYzPCtiJ1yCiO5qM.Xv/Cpky', 'judy@emial.com',false, false) --pass10
     ON CONFLICT (id) DO NOTHING;
 
 -- ==========================

@@ -33,6 +33,11 @@ public class ListEntityRepository implements ListRepository {
     }
 
     @Override
+    public List<ListDto> getByUsername(String username) {
+        return this.listMapper.toDtos(this.crudListEntity.findAllByBoardOwnerUsername(username));
+    }
+
+    @Override
     public ListDto save(ListDto listDto) {
         ListEntity listEntity = this.listMapper.toEntity(listDto);
         return this.listMapper.toDto(this.crudListEntity.save(listEntity));

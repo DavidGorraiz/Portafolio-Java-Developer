@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,9 @@ public class TaskController {
             summary = "Get all the tasks of all users",
             description = "Return a list of tasks",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "All tasks found")
+                    @ApiResponse(responseCode = "200", description = "All tasks found"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<List<TaskDto>> getAll() {
@@ -46,7 +49,9 @@ public class TaskController {
             description = "Return a task depending on its id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Task found"),
-                    @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "Task not found", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<TaskDto> getById(@Parameter(description = "Task's identifier", example = "5") @PathVariable long id) {
@@ -59,16 +64,19 @@ public class TaskController {
         return ResponseEntity.ok(taskDto);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user")
     @Operation(
             summary = "Get tasks for a user",
             description = "Return a list of tasks that correspond to a user",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Tasks found"),
-                    @ApiResponse(responseCode = "404", description = "Username doesn't have tasks", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "Username doesn't have tasks", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
-    public ResponseEntity<List<TaskDto>> getByUsername(@Parameter(description = "Username that have taskts", example = "david") @PathVariable String username) {
+    public ResponseEntity<List<TaskDto>> getByUsername() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<TaskDto> tasksDto = this.taskService.getByUser(username);
 
         if (tasksDto == null) {
@@ -77,16 +85,20 @@ public class TaskController {
         return ResponseEntity.ok(tasksDto);
     }
 
-    @GetMapping("/summary/{username}")
+    @GetMapping("/summary")
     @Operation(
             summary = "Get a summary about tasks for a user",
             description = "Return a summary about user's tasks",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Summary generated"),
-                    @ApiResponse(responseCode = "404", description = "User doesn't have tasks", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "User doesn't have tasks", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
-    public ResponseEntity<String> getSummary(@Parameter(description = "User's username used for generated summary", example = "alice") @PathVariable String username) {
+    public ResponseEntity<String> getSummary() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         List<TaskDto> tasksDto = this.taskService.getByUser(username);
 
         if (tasksDto == null) {
@@ -102,7 +114,9 @@ public class TaskController {
             description = "Create a new tasks and then return that task",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Task created"),
-                    @ApiResponse(responseCode = "400", description = "Task must have title, due date must not be past, task must be in a list and in a board", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Task must have title, due date must not be past, task must be in a list and in a board", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<TaskDto> save(@RequestBody @Valid TaskDto taskDto) {
@@ -115,7 +129,9 @@ public class TaskController {
             description = "Update a task identified by its id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Task updated"),
-                    @ApiResponse(responseCode = "400", description = "Task must have title, due date must not be past, task must be in a list and in a board", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Task must have title, due date must not be past, task must be in a list and in a board", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<TaskDto> update(@Parameter(description = "Task's identifier", example = "5") @PathVariable long id, @RequestBody @Valid UpdateTaskDto updateTaskDto) {
@@ -128,7 +144,9 @@ public class TaskController {
             description = "Delete a tasks identified by its id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Task deleted"),
-                    @ApiResponse(responseCode = "400", description = "Task not exist", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Task not exist", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<TaskDto> delete(@Parameter(description = "Task's identifier", example = "5") @PathVariable long id){

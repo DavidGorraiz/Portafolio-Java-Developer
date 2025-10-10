@@ -1,12 +1,17 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditRoleListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class RoleEntity {
+@EntityListeners({AuditingEntityListener.class, AuditRoleListener.class})
+public class RoleEntity extends AuditableEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +45,13 @@ public class RoleEntity {
 
     public void setUsers(List<UserEntity> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "RoleEntity{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

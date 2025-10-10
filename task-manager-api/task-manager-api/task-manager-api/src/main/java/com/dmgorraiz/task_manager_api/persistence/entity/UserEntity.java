@@ -1,13 +1,18 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditUserListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+@EntityListeners({AuditingEntityListener.class, AuditUserListener.class})
+public class UserEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,19 +22,24 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private Boolean locked = false;
+
     @Column(nullable = false)
     private Boolean disabled = false;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardEntity> boards;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<BoardMemberEntity> boardMembers;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -41,13 +51,21 @@ public class UserEntity {
     @JsonIgnore
     private List<RoleEntity> roles;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<AttachmentEntity> attachments;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<CommentEntity> comments;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -127,5 +145,17 @@ public class UserEntity {
 
     public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "disabled=" + disabled +
+                ", locked=" + locked +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

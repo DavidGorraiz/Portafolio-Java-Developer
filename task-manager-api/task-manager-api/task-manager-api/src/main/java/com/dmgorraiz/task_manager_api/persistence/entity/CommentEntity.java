@@ -1,11 +1,17 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditCommentListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "comments")
-public class CommentEntity {
+@EntityListeners({AuditingEntityListener.class, AuditCommentListener.class})
+public class CommentEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -72,5 +78,15 @@ public class CommentEntity {
 
     public void setTask(TaskEntity task) {
         this.task = task;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentEntity{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", userId=" + userId +
+                ", taskId=" + taskId +
+                '}';
     }
 }

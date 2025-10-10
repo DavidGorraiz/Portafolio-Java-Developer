@@ -1,14 +1,20 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditTaskListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "task")
-public class TaskEntity {
+@EntityListeners({AuditingEntityListener.class, AuditTaskListener.class})
+public class TaskEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +36,7 @@ public class TaskEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "list_id", insertable = false, updatable = false)
     @JsonIgnore
+    @JsonBackReference
     private ListEntity list;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,6 +49,21 @@ public class TaskEntity {
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
+
+    public TaskEntity() {
+    }
+
+    public LocalDateTime getCreatedDate() { return createdDate; }
+    public void setCreatedDate(LocalDateTime createdDate) { this.createdDate = createdDate; }
+
+    public LocalDateTime getModifiedDate() { return modifiedDate; }
+    public void setModifiedDate(LocalDateTime modifiedDate) { this.modifiedDate = modifiedDate; }
+
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+
+    public String getModifiedBy() { return modifiedBy; }
+    public void setModifiedBy(String modifiedBy) { this.modifiedBy = modifiedBy; }
 
     public Long getId() {
         return id;
@@ -137,5 +159,19 @@ public class TaskEntity {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskEntity{" +
+                "boardId=" + boardId +
+                ", listId=" + listId +
+                ", status='" + status + '\'' +
+                ", position=" + position +
+                ", dueDate=" + dueDate +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

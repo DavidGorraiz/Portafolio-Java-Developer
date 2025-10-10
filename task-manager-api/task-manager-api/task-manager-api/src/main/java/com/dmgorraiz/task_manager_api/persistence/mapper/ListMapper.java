@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ListMapper {
 
-    @Mapping(source = "tasks", target = "tasksDto")
     ListDto toDto(ListEntity listEntity);
     List<ListDto> toDtos(Iterable<ListEntity> listEntities);
 

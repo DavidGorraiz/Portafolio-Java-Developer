@@ -13,7 +13,6 @@ public record ListDto(
         Integer position,
 
         @NotNull(message = "List must be in a board")
-        Long boardId,
-        List<TaskDto> tasksDto
+        Long boardId
 ) {
 }

@@ -61,8 +61,10 @@ public class RoleEntityRepository implements RoleRepository {
             throw new IdNotExistException(id);
         }
 
+        RoleDto roleDto = this.roleMapper.toDto(roleEntity);
+
         this.crudRoleEntity.delete(roleEntity);
 
-        return this.roleMapper.toDto(roleEntity);
+        return roleDto;
     }
 }

@@ -1,13 +1,19 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditListListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "lists")
-public class ListEntity {
+@EntityListeners({AuditingEntityListener.class, AuditListListener.class})
+public class ListEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +30,7 @@ public class ListEntity {
     private BoardEntity board;
 
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<TaskEntity> tasks;
 
     public Long getId() {
@@ -72,5 +79,15 @@ public class ListEntity {
 
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return "ListEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", boardId=" + boardId +
+                '}';
     }
 }

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,9 @@ public class AttachmentController {
             summary = "Get all the attachments",
             description = "Return a list of all the attachments",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "All attachments")
+                    @ApiResponse(responseCode = "200", description = "All attachments"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<List<AttachmentDto>> getAll() {
@@ -43,7 +46,9 @@ public class AttachmentController {
             description = "Return an attachment by its id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Attachment found"),
-                    @ApiResponse(responseCode = "404", description = "Attachment not found", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "Attachment not found", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<AttachmentDto> getById(@Parameter(description = "Attachment's identifier", example = "5") @PathVariable long id) {
@@ -56,13 +61,30 @@ public class AttachmentController {
         return ResponseEntity.ok(attachmentDto);
     }
 
+    @GetMapping("/user")
+    @Operation(
+            summary = "Get an attachment by its user",
+            description = "Return a list of attachments by its user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Attachment found"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
+            }
+    )
+    public ResponseEntity<List<AttachmentDto>> getByUsername(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(this.attachmentService.getByUsername(username));
+    }
+
     @PostMapping
     @Operation(
             summary = "Post a new attachment",
             description = "Create an attachment in the database",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Attachment created"),
-                    @ApiResponse(responseCode = "400", description = "Attachemtn must have file ur, user id and task id", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Attachemtn must have file ur, user id and task id", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<AttachmentDto> save(@RequestBody @Valid AttachmentDto attachmentDto) {
@@ -75,7 +97,9 @@ public class AttachmentController {
             description = "Update an attachment",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Attachment updated"),
-                    @ApiResponse(responseCode = "400", description = "Miss url, user or task", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Miss url, user or task", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<AttachmentDto> update(@Parameter(description = "Attachment's identifier", example = "5") @PathVariable long id, @RequestBody @Valid UpdateAttachmentDto updateAttachmentDto) {
@@ -88,7 +112,9 @@ public class AttachmentController {
             description = "Delete an attachment",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Attachment deleted"),
-                    @ApiResponse(responseCode = "400", description = "Attachment not exist", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Attachment not exist", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<AttachmentDto> delete(@Parameter(description = "Attachment's identifier", example = "5") @PathVariable long id) {

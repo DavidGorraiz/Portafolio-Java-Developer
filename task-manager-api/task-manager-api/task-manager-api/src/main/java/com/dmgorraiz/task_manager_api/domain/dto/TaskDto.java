@@ -27,6 +27,12 @@ public record TaskDto(
         @NotNull(message = "Task must be in a board")
         Long boardId,
 
+        LocalDateTime createdDate,
+
+        String createdBy,
+
+        String modifiedBy,
+
         List<AttachmentDto> attachmentDtos,
         List<CommentDto> commentDtos
 ) {

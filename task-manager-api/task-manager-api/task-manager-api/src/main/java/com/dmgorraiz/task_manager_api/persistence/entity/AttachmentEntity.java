@@ -1,11 +1,17 @@
 package com.dmgorraiz.task_manager_api.persistence.entity;
 
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditAttachmentListener;
+import com.dmgorraiz.task_manager_api.persistence.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "attachments")
-public class AttachmentEntity {
+@EntityListeners({AuditingEntityListener.class, AuditAttachmentListener.class})
+public class AttachmentEntity extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -72,5 +78,15 @@ public class AttachmentEntity {
 
     public void setTask(TaskEntity task) {
         this.task = task;
+    }
+
+    @Override
+    public String toString() {
+        return "AttachmentEntity{" +
+                "id=" + id +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", userId=" + userId +
+                ", taskId=" + taskId +
+                '}';
     }
 }

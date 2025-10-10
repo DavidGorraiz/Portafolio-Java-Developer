@@ -3,6 +3,7 @@ package com.dmgorraiz.task_manager_api.domain.service;
 import com.dmgorraiz.task_manager_api.domain.dto.RoleDto;
 import com.dmgorraiz.task_manager_api.domain.dto.UpdateRoleDto;
 import com.dmgorraiz.task_manager_api.domain.repository.RoleRepository;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

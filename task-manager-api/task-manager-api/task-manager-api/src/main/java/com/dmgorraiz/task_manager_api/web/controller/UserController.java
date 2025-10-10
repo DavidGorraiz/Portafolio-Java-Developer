@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,9 @@ public class UserController {
             summary = "Get all the users",
             description = "Return the list of all users",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Users found")
+                    @ApiResponse(responseCode = "200", description = "Users found"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<List<UserDto>> getAll() {
@@ -43,7 +46,9 @@ public class UserController {
             description = "Return a user that match with the provided id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "User found"),
-                    @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<UserDto> getById(@Parameter(description = "User's identifier", example = "9") @PathVariable long id) {
@@ -56,13 +61,35 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+    @GetMapping("/username")
+    @Operation(
+            summary = "Get a user by its username",
+            description = "Return a user that match with the provided username",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User found"),
+                    @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
+            }
+    )
+    public ResponseEntity<UserDto> getByUsername() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDto userDto = this.userService.getByUsername(username);
+        if (userDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userDto);
+    }
+
     @PostMapping
     @Operation(
             summary = "Post a user with a username and a password",
             description = "Insert a new user and return the user created",
             responses = {
                     @ApiResponse(responseCode = "201", description = "User created"),
-                    @ApiResponse(responseCode = "400", description = "Miss the username or the password", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Miss the username or the password", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<UserDto> save(@RequestBody @Valid UserDto userDto) {
@@ -75,11 +102,29 @@ public class UserController {
             description = "Update a user providing the id and in the body the data you want to update",
             responses = {
                     @ApiResponse(responseCode = "200", description = "User updated"),
-                    @ApiResponse(responseCode = "400", description = "Miss the username or the password", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Miss the username or the password", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<UserDto> update(@Parameter(description = "User's identifier", example = "5") @PathVariable long id,@RequestBody @Valid UpdateUserDto updateUserDto) {
         return ResponseEntity.ok(this.userService.update(id,updateUserDto));
+    }
+
+    @PutMapping("/username")
+    @Operation(
+            summary = "Update a user, you can change username, password, and change if it is locked or disabled",
+            description = "Update a user providing the username and in the body the data you want to update",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User updated"),
+                    @ApiResponse(responseCode = "400", description = "Miss the username or the password", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
+            }
+    )
+    public ResponseEntity<UserDto> updateByUsername(@RequestBody @Valid UpdateUserDto updateUserDto){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(this.userService.updateByUsername(username, updateUserDto));
     }
 
     @DeleteMapping("/{id}")
@@ -88,10 +133,28 @@ public class UserController {
             description = "Delete a user and return the data of the user deleted",
             responses = {
                     @ApiResponse(responseCode = "200", description = "User Deleted"),
-                    @ApiResponse(responseCode = "400", description = "The user you want delete don't exists", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "The user you want delete don't exists", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<UserDto> delete(@Parameter(description = "User's identifier", example = "5") @PathVariable long id) {
         return ResponseEntity.ok(this.userService.delete(id));
+    }
+
+    @DeleteMapping("/username")
+    @Operation(
+            summary = "Delete a user by its username",
+            description = "Delete a user and return the data of the user deleted",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "User Deleted"),
+                    @ApiResponse(responseCode = "400", description = "The user you want delete don't exists", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
+            }
+    )
+    public ResponseEntity<UserDto> deleteByUsername(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(this.userService.deleteByUsername(username));
     }
 }

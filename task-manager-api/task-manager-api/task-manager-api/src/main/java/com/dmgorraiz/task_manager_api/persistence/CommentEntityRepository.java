@@ -36,6 +36,11 @@ public class CommentEntityRepository implements CommentRepository {
     }
 
     @Override
+    public List<CommentDto> getByUsername(String username) {
+        return this.commentMapper.toDtos(this.crudCommentEntity.findAllByAuthorUsername(username));
+    }
+
+    @Override
     public CommentDto save(CommentDto commentDto) {
         CommentEntity commentEntity = this.commentMapper.toEntity(commentDto);
 

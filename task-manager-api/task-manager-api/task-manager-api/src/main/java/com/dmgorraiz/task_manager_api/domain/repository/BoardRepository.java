@@ -8,6 +8,8 @@ import java.util.List;
 public interface BoardRepository {
     List<BoardDto> getAll();
     BoardDto getById(long id);
+    List<BoardDto> getByOwner(String owner);
+    List<BoardDto> getByMember(String member);
     BoardDto save(BoardDto boardDto);
     BoardDto update(long id, UpdateBoardDto updateBoardDto);
     BoardDto delete(long id);

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,9 @@ public class CommentController {
             summary = "Get all the comments in the database",
             description = "Return a list of all the comments",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "All comments")
+                    @ApiResponse(responseCode = "200", description = "All comments"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<List<CommentDto>> getAll(){
@@ -42,7 +45,9 @@ public class CommentController {
             description = "Return a comment by its id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Comment found"),
-                    @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<CommentDto> getById(@Parameter(description = "Comment's identifier", example = "5") @PathVariable long id){
@@ -55,13 +60,30 @@ public class CommentController {
         return ResponseEntity.ok(commentDto);
     }
 
+    @GetMapping("/user")
+    @Operation(
+            summary = "Get comments by its user",
+            description = "Return a list of comments by its user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Comments found"),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
+            }
+    )
+    public ResponseEntity<List<CommentDto>> getByUsername(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(this.commentService.getByUsername(username));
+    }
+
     @PostMapping
     @Operation(
             summary = "Post a new comment",
             description = "Return the comment created",
             responses = {
                     @ApiResponse(responseCode = "201", description = "Comment created"),
-                    @ApiResponse(responseCode = "400", description = "User and task must be provided", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "User and task must be provided", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<CommentDto> save(@RequestBody @Valid CommentDto commentDto){
@@ -74,7 +96,9 @@ public class CommentController {
             description = "Return the comment updated",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Comment updated"),
-                    @ApiResponse(responseCode = "400", description = "User and task must be provided", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "User and task must be provided", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<CommentDto> update(@Parameter(description = "Comment's identifier", example = "5") @PathVariable long id, @RequestBody @Valid UpdateCommentDto updateCommentDto){
@@ -87,7 +111,9 @@ public class CommentController {
             description = "Return the comment deleted",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Comment deleted"),
-                    @ApiResponse(responseCode = "400", description = "Comment not exist", content = @Content)
+                    @ApiResponse(responseCode = "400", description = "Comment not exist", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                    @ApiResponse(responseCode = "403", description = "User not allowed", content = @Content)
             }
     )
     public ResponseEntity<CommentDto> delete(@Parameter(description = "Comment's identifier", example = "5") @PathVariable long id){

@@ -3,7 +3,7 @@ services:
     image: 'postgres:latest'
     restart: unless-stopped
     environment:
-      - 'POSTGRES_DB=task-manager-db'
+      - 'POSTGRES_DB=task_manager_db'
       - 'POSTGRES_PASSWORD=david.task'
       - 'POSTGRES_USER=david'
     ports:

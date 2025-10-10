@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserMapper {
 
     @Mapping(source = "disabled", target = "disable")
-    @Mapping(source = "boards", target = "boardsDto")
+    @Mapping(source = "roles", target = "roleDtos")
     UserDto toUserDto(UserEntity userEntity);
     List<UserDto> toDtos(Iterable<UserEntity> userEntities);
 

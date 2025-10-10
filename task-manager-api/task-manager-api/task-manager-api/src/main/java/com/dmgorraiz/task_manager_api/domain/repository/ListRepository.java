@@ -8,6 +8,7 @@ import java.util.List;
 public interface ListRepository {
     List<ListDto> getAll();
     ListDto getById(long id);
+    List<ListDto> getByUsername(String username);
     ListDto save(ListDto listDto);
     ListDto update(long id,UpdateListDto updateListDto);
     ListDto delete(long id);
