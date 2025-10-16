@@ -34,7 +34,7 @@ https://task-manager-vczr.onrender.com/task_manager/api
 
 Puedes consultar la documentación completa generada con **Swagger**:  
 
-📘 **Swagger UI:** *(URL del Swagger aquí si la tienes)*  
+📘 **Swagger UI:** *(https://task-manager-vczr.onrender.com/task_manager/api/swagger-ui/index.html)*  
 
 > 🔐 La mayoría de los endpoints requieren autenticación. Algunas acciones dependen del **rol** del usuario y de su **rol dentro del board**.
 
@@ -63,38 +63,19 @@ La aplicación utiliza una **arquitectura por capas orientada al dominio**, lo q
 
 Esto facilita el mantenimiento y la escalabilidad, ya que es posible cambiar de motor (por ejemplo, de H2 a PostgreSQL) sin afectar la lógica del dominio.
 
-### Estructura general de capas:
+### 🧱 Estructura general de capas
 
-┌──────────────────────────┐
-│ Controller │ ← Capa Web (maneja peticiones HTTP)
-└────────────┬─────────────┘
-│
-┌────────────▼─────────────┐
-│ Service │ ← Contiene la lógica de negocio
-└────────────┬─────────────┘
-│
-┌────────────▼─────────────┐
-│ Repository (Dom) │ ← Interfaz del dominio (desacopla persistencia)
-└────────────┬─────────────┘
-│
-┌────────────▼─────────────┐
-│ Entity Repository (DB) │ ← Implementación concreta (JPA)
-└────────────┬─────────────┘
-│
-┌────────────▼─────────────┐
-│ Database │ ← Motor: H2 / PostgreSQL
-└──────────────────────────┘
+Controller            ← Capa Web (maneja peticiones HTTP)
+   │
+Service               ← Contiene la lógica de negocio
+   │
+Repository (Dom)      ← Interfaz del dominio (desacopla persistencia)
+   │
+Entity Repository (DB)← Implementación concreta (JPA)
+   │
+Database              ← Motor: H2 / PostgreSQL
 
 
----
-
-## 🗃️ Diagrama de base de datos  
-
-*(Puedes agregar aquí una imagen con tu diagrama, por ejemplo:)*  
-
-![Database Diagram](./assets/db-diagram.png)
-
----
 
 ## 💡 Ejemplo de arquitectura  
 
