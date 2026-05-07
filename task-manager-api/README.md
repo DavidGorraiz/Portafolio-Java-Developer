@@ -17,6 +17,7 @@ Incluye:
 
 ## 🧰 Tecnologías usadas  
 
+- **Java 17**
 - **Spring Boot**
 - **Spring Security**
 - **Docker**
