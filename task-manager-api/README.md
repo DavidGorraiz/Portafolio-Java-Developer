@@ -17,7 +17,9 @@ Incluye:
 
 ## 🧰 Tecnologías usadas  
 
-- **Spring Boot**  
+- **Spring Boot**
+- **Spring Security**
+- **Docker**
 - **LangChain4j**  
 - **Spring Data JPA**  
 - **H2 / PostgreSQL**  
